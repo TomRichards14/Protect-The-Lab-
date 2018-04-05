@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementScript : MonoBehaviour {
 
     public float PlayerMovementSpeed = 250f;
-    public float PlayerRotationSpeed = 1.0f;
+    public float PlayerRotationSpeed = 100.0f;
 
     public Vector3 PlayerDirection = Vector3.zero;
     public Vector3 MousePosition;
@@ -21,29 +21,28 @@ public class PlayerMovementScript : MonoBehaviour {
 	void Update ()
     {
         CheckForMovementInput();
-        PlayerRotation();
     }
 
     void CheckForMovementInput()
     {
         if (Input.GetKey(KeyCode.W))
         {
-            PlayerDirection = Vector3.forward;
-            PlayerMovement();
+            transform.Translate(PlayerMovementSpeed * Time.deltaTime, 0, 0);
         }
-    }
 
-    void PlayerMovement()
-    {
-        transform.position += PlayerDirection * PlayerMovementSpeed * Time.deltaTime;
-    }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(-PlayerMovementSpeed * Time.deltaTime, 0, 0);
+        }
 
-    void PlayerRotation()
-    {
-        MousePosition = Input.mousePosition;
-        Debug.Log(MousePosition);
-        RotatePlayerTo = new Vector3(0.0f, MousePosition.y, 0.0f);
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(-Vector3.up * PlayerRotationSpeed);
+        }
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, RotatePlayerTo, PlayerRotationSpeed);
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(Vector3.up * PlayerRotationSpeed);
+        }
     }
 }
