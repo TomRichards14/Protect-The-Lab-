@@ -8,7 +8,9 @@ public class EnemyScript : MonoBehaviour {
     public GameObject PlayerGameObject;
 
     public float SpawnXPosition;
+    public float SpawnXVariation;
     public float SpawnZPosition;
+    public float SpawnZVariation;
 
     public int QuantityOfEnemiesInObjectPool = 125;
     public int CurrentQuantityInWave;
@@ -42,7 +44,10 @@ public class EnemyScript : MonoBehaviour {
 
     void ChooseNewSpawnPoint()
     {
-        SpawnXPosition = Random.Range();
-        SpawnZPosition = Random.Range();
+        while (!SpawnXPosition == -16.0f < SpawnXPosition > 16.0f)
+        SpawnXPosition = Random.Range(-20, 20);
+        SpawnZPosition = Random.Range(-30, 30);
+
+        
     }
 }
