@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementScript : MonoBehaviour {
 
     public float PlayerMovementSpeed = 250f;
-    public float PlayerRotationSpeed = 100.0f;
+    public float PlayerRotationSpeed = 250.0f;
 
     public Vector3 PlayerDirection = Vector3.zero;
     public Vector3 MousePosition;
