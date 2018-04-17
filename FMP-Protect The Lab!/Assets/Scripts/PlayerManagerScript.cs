@@ -67,6 +67,24 @@ public class PlayerManagerScript : MonoBehaviour {
 
     public void PlayerShooting()
     {
+        //Takes the mouse position and converts it from screen to world
         Vector3 MousePosInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Converts it into a usable form for the game
+        Vector3 BulletTrajectory = new Vector3(MousePosInWorld.x, 1.0f, MousePosInWorld.z);
+
+        //Goes through the object pool and sets one to active if it's inactive
+        for (int i = 0; i < BulletObjectPool.Count; i++)
+        {
+            if (!BulletObjectPool[i].activeInHierarchy)
+            {
+                BulletObjectPool[i].SetActive(true);
+
+                BulletObjectPool[i].transform.position = transform.position;
+                BulletObjectPool[i].transform.eulerAngles = transform.eulerAngles;
+                
+
+                //NEED TO ADD FORCE OR ADD SOMETHING TO MOVE THE BULLET TOWARDS BULLETTRAJECTORY
+            }
+        }
     }
 }
