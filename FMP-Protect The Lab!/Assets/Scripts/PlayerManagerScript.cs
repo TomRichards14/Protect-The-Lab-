@@ -6,10 +6,13 @@ public class PlayerManagerScript : MonoBehaviour {
 
     public GameObject BulletPrefab;
 
-    private float PlayerMovementSpeed = 5f;
+    private float PlayerMovementSpeed = 5.0f;
     private float PlayerRotationSpeed = 250.0f;
+    private float BulletTravelSpeed = 5.0f;
 
     private int QuantityOfBulletsInObjectPool = 25;
+
+    private bool HasBulletFired;
 
     public Vector3 PlayerDirection = Vector3.zero;
     public Vector3 MousePosition;
@@ -22,6 +25,7 @@ public class PlayerManagerScript : MonoBehaviour {
     {
         //Instantiating the object pool for the bullets
         BulletObjectPool = new List<GameObject>();
+        HasBulletFired = false;
 
         //Adding the GameObjects to the object pool
         for (int i = 0; i < QuantityOfBulletsInObjectPool; i++)
@@ -38,6 +42,7 @@ public class PlayerManagerScript : MonoBehaviour {
         CheckForMovementInput();
         if (Input.GetButtonDown("Fire1"))
         {
+            HasBulletFired = false;
             PlayerShooting();
         }        
     }
@@ -75,16 +80,22 @@ public class PlayerManagerScript : MonoBehaviour {
         //Goes through the object pool and sets one to active if it's inactive
         for (int i = 0; i < BulletObjectPool.Count; i++)
         {
-            if (!BulletObjectPool[i].activeInHierarchy)
+            if ((!BulletObjectPool[i].activeInHierarchy) && (HasBulletFired == false))
             {
                 BulletObjectPool[i].SetActive(true);
 
                 BulletObjectPool[i].transform.position = transform.position;
-                BulletObjectPool[i].transform.eulerAngles = transform.eulerAngles;
-                
+                BulletObjectPool[i].transform.eulerAngles = new Vector3(90.0f, transform.eulerAngles.y, transform.eulerAngles.z);
 
+                Vector3.Slerp(BulletObjectPool[i].transform.position, BulletTrajectory, BulletTravelSpeed);
                 //NEED TO ADD FORCE OR ADD SOMETHING TO MOVE THE BULLET TOWARDS BULLETTRAJECTORY
+
+                HasBulletFired = true;
             }
+
+            transform.LookAt(BulletObjectPool[i].transform);
         }
     }
+
+
 }
