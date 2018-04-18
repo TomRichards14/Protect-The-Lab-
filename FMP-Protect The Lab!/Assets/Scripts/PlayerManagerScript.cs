@@ -39,6 +39,9 @@ public class PlayerManagerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        //Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        Debug.Log(Input.mousePosition);
+
         CheckForMovementInput();
         if (Input.GetButtonDown("Fire1"))
         {
@@ -73,9 +76,11 @@ public class PlayerManagerScript : MonoBehaviour {
     public void PlayerShooting()
     {
         //Takes the mouse position and converts it from screen to world
-        Vector3 MousePosInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //Converts it into a usable form for the game
-        Vector3 BulletTrajectory = new Vector3(MousePosInWorld.x, 1.0f, MousePosInWorld.z);
+        Vector3 PlayerShootingDirection = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f);
+        PlayerShootingDirection = Camera.main.ScreenToWorldPoint(PlayerShootingDirection) - transform.position;
+
+        Vector3 PlayerLookAtDirection = PlayerShootingDirection - transform.position;
+        transform.rotation = Quaternion.LookRotation(Vector3.up, PlayerLookAtDirection);
 
         //Goes through the object pool and sets one to active if it's inactive
         for (int i = 0; i < BulletObjectPool.Count; i++)
@@ -87,8 +92,10 @@ public class PlayerManagerScript : MonoBehaviour {
                 BulletObjectPool[i].transform.position = transform.position;
                 BulletObjectPool[i].transform.eulerAngles = new Vector3(90.0f, transform.eulerAngles.y, transform.eulerAngles.z);
 
-                Vector3.Slerp(BulletObjectPool[i].transform.position, BulletTrajectory, BulletTravelSpeed);
-                //NEED TO ADD FORCE OR ADD SOMETHING TO MOVE THE BULLET TOWARDS BULLETTRAJECTORY
+                Rigidbody rigidComponent = BulletObjectPool[i].GetComponent<Rigidbody>();
+                rigidComponent.velocity = transform.forward * BulletTravelSpeed;
+
+                //Vector3.Slerp(BulletObjectPool[i].transform.position, BulletTrajectory, BulletTravelSpeed);
 
                 HasBulletFired = true;
             }

@@ -62,8 +62,6 @@ public class EnemyManagerScript : MonoBehaviour {
         {
             SpawnXPosition = Random.Range(-20, 20);
         }
-        Debug.Log(SpawnXPosition);
-
 
         SpawnZPosition = Random.Range(-30, 30);        
     }

@@ -303,8 +303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c473d8a5cba894d4488761a0defa9ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerMovementSpeed: 250
-  PlayerRotationSpeed: 250
+  BulletPrefab: {fileID: 1454854176615836, guid: 672b6aae77d020b4ab7f9401e3176a08,
+    type: 2}
   PlayerDirection: {x: 0, y: 0, z: 0}
   MousePosition: {x: 0, y: 0, z: 0}
   RotatePlayerTo: {x: 0, y: 0, z: 0}
