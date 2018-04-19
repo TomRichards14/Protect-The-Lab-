@@ -13,7 +13,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     public int MaximumHealth = 100;
     public int CurrentHealth;
-    public const int Damage = 5;
+    public const int AttackDamage = 5;
 
     public const float MeleeRange = 1.0f;
     public const float CollectRangee = 1.0f;
@@ -47,8 +47,18 @@ public class EnemyActionsManagerScript : MonoBehaviour {
     {
         if ((PlayerGameObject.CompareTag(ConstantTags.PlayerTag)) && (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < MeleeRange))
         {
-
+            PlayerGameObject.GetComponent<PlayerManagerScript>().CurrentHealth -= AttackDamage;
         }
+    }
+
+    public void CollectCorePiece(GameObject CorePiece)
+    {
+
+    }
+
+    public void FleeWithCorePiece()
+    {
+        EnemyAgent.destination = SpawnPosition;
     }
 
     public void TakeDamage(int DamageTaken)
