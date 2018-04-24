@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114957793760631084}
   m_Layer: 0
   m_Name: NormalEnemy
-  m_TagString: Untagged
+  m_TagString: Normal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +114,9 @@ MonoBehaviour:
   CurrentHealth: 0
   IsAlive: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
+  AIState: 
+  PlayerGameObject: {fileID: 1988323653640070, guid: b4edc79da01b5ea4cadd6bc1e8db7f8a,
+    type: 2}
 --- !u!136 &136062764689705928
 CapsuleCollider:
   m_ObjectHideFlags: 1
