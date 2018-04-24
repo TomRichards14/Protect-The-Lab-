@@ -43,7 +43,7 @@ public class PlayerManagerScript : MonoBehaviour {
 	void Update ()
     {
         //Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        Debug.Log(Input.mousePosition);
+        //Debug.Log(Input.mousePosition);
 
         CheckForMovementInput();
         if (Input.GetButtonDown("Fire1"))
@@ -79,11 +79,11 @@ public class PlayerManagerScript : MonoBehaviour {
     public void PlayerShooting()
     {
         //Takes the mouse position and converts it from screen to world
-        Vector3 PlayerShootingDirection = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f);
-        PlayerShootingDirection = Camera.main.ScreenToWorldPoint(PlayerShootingDirection) - transform.position;
+        //Vector3 PlayerShootingDirection = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f);
+        //PlayerShootingDirection = Camera.main.ScreenToWorldPoint(PlayerShootingDirection) - transform.position;
 
-        Vector3 PlayerLookAtDirection = PlayerShootingDirection - transform.position;
-        transform.rotation = Quaternion.LookRotation(Vector3.up, PlayerLookAtDirection);
+        //Vector3 PlayerLookAtDirection = PlayerShootingDirection - transform.position;
+        //transform.rotation = Quaternion.LookRotation(Vector3.up, PlayerLookAtDirection);
 
         //Goes through the object pool and sets one to active if it's inactive
         for (int i = 0; i < BulletObjectPool.Count; i++)

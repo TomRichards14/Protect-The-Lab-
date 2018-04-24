@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 54558509042147760}
   - component: {fileID: 195254957342610658}
   - component: {fileID: 114957793760631084}
-  - component: {fileID: 114989016773697218}
   m_Layer: 0
   m_Name: NormalEnemy
   m_TagString: Untagged
@@ -115,27 +114,6 @@ MonoBehaviour:
   CurrentHealth: 0
   IsAlive: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
---- !u!114 &114989016773697218
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1904467551669502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 161e1c4d72234244c859a36394e07fdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NormalEnemyPrefab: {fileID: 0}
-  CoreEnemyPrefab: {fileID: 0}
-  PlayerGameObject: {fileID: 0}
-  SpawnXPosition: 0
-  SpawnXVariation: 0
-  SpawnZPosition: 0
-  SpawnZVariation: 0
-  QuantityOfEnemiesInObjectPool: 125
-  CurrentQuantityInWave: 0
-  IsCurrentWaveOver: 0
 --- !u!136 &136062764689705928
 CapsuleCollider:
   m_ObjectHideFlags: 1

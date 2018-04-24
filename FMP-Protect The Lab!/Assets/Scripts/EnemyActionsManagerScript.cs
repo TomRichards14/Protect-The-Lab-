@@ -24,23 +24,28 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     private NavMeshAgent EnemyAgent;
 
+    public string AIState;
+    public GameObject PlayerGameObject;
+    public AIStateMachine<EnemyActionsManagerScript> stateMachine { get; set; }
+
 	// Use this for initialization
 	void Start ()
     {
         EnemyAgent = GetComponent<NavMeshAgent>();
+        stateMachine = new AIStateMachine<EnemyActionsManagerScript>(this);
+        stateMachine.ChangeState(ChasePlayer.Instance);
         SpawnPosition = transform.position;
         CurrentHealth = MaximumHealth;
         IsAlive = true;
 	}
-	
-	public void MoveTowardsPlayer(GameObject PlayerGameObject)
+	void Update ()
     {
-        EnemyAgent.destination = PlayerGameObject.transform.position;
+        stateMachine.Update();
     }
 
-    public void MoveTowardsCorePiece(GameObject CorePieceGameObject)
+	public void MoveTowardsObject(GameObject AIPointOfInterest)
     {
-        EnemyAgent.destination = CorePieceGameObject.transform.position;
+        EnemyAgent.destination = AIPointOfInterest.transform.position;
     }
 
     public void AttackPlayer(GameObject PlayerGameObject)
@@ -74,4 +79,89 @@ public class EnemyActionsManagerScript : MonoBehaviour {
     {
         IsAlive = false;
     }
+}
+
+public class AIStateMachine<Enemy>
+{
+    #region State Machine Initialisation
+    public State<Enemy> currentState { get; set; }
+    public Enemy EnemyAI;
+
+    public AIStateMachine(Enemy _EnemyAI)
+    {
+        EnemyAI = _EnemyAI;
+        currentState = null;
+    }
+
+    public void ChangeState(State<Enemy> NewState)
+    {
+        if (currentState != null)
+        {
+            currentState.ExitState(EnemyAI);
+        }
+
+        currentState = NewState;
+
+        currentState.EnterState(EnemyAI);
+    }
+
+    public void Update()
+    {
+        if (currentState != null)
+        {
+            currentState.ExecuteState(EnemyAI);
+        }
+    }
+    #endregion
+}
+
+public abstract class State<Enemy>
+{
+    #region State class function set up
+    public abstract void EnterState(Enemy Enemy);
+    public abstract void ExecuteState(Enemy Enemy);
+    public abstract void ExitState(Enemy Enemy);
+    #endregion
+}
+
+public class ChasePlayer : State<EnemyActionsManagerScript>
+{
+    #region ChasePlayer state instance set up
+    static readonly ChasePlayer instance = new ChasePlayer();
+    public static ChasePlayer Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    static ChasePlayer() { }
+    private ChasePlayer() { }
+    #endregion
+
+
+    #region ChasePlayer State Machine
+    public override void EnterState(EnemyActionsManagerScript Enemy)
+    {
+        Enemy.AIState = "ChasePlayer";
+        Debug.Log("Entering ChasePlayer State" + Enemy.gameObject);
+    }
+
+    public override void ExecuteState(EnemyActionsManagerScript Enemy)
+    {
+        if (Enemy.tag == "Normal")
+        {
+            Enemy.MoveTowardsObject(Enemy.PlayerGameObject);
+        }
+        else
+        {
+            Enemy.MoveTowardsObject(Enemy.PlayerGameObject);
+        }
+    }
+
+    public override void ExitState(EnemyActionsManagerScript Enemy)
+    {
+        Debug.Log("Leaving ChasePlayer State" + Enemy.gameObject);
+    }
+    #endregion
 }
