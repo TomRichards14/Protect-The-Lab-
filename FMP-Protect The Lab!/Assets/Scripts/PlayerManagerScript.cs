@@ -8,7 +8,8 @@ public class PlayerManagerScript : MonoBehaviour {
 
     private float PlayerMovementSpeed = 5.0f;
     private float PlayerRotationSpeed = 250.0f;
-    private float BulletTravelSpeed = 5.0f;
+    private float BulletTravelSpeed = 0.5f;
+    public float FireAngle;
 
     private int QuantityOfBulletsInObjectPool = 25;
     public int MaximumHealth = 100;
@@ -46,15 +47,36 @@ public class PlayerManagerScript : MonoBehaviour {
         //Debug.Log(Input.mousePosition);
 
         CheckForMovementInput();
+        CorrectingPlayerPosition();
+
         if (Input.GetButtonDown("Fire1"))
         {
             HasBulletFired = false;
-            PlayerShooting();
+            PlayerFiring();
         }        
     }
 
     public void CheckForMovementInput()
     {
+        //Movement for Android
+        //If the phone has a gyroscope
+        /*if (Input.gyro.enabled == true)
+        {
+            transform.position += Input.acceleration * PlayerMovementSpeed * Time.deltaTime;
+        }
+        //If the phone doesn't have a gyroscope
+        else
+        {
+
+        }*/
+
+
+
+
+
+
+        //Movement for testing on Windows
+        ///*
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(PlayerMovementSpeed * Time.deltaTime, 0, 0);
@@ -74,16 +96,15 @@ public class PlayerManagerScript : MonoBehaviour {
         {
             transform.Rotate(Vector3.up * PlayerRotationSpeed * Time.deltaTime);
         }
+        //*/
     }
 
-    public void PlayerShooting()
+    public void PlayerFiring()
     {
         //Takes the mouse position and converts it from screen to world
-        //Vector3 PlayerShootingDirection = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f);
-        //PlayerShootingDirection = Camera.main.ScreenToWorldPoint(PlayerShootingDirection) - transform.position;
-
-        //Vector3 PlayerLookAtDirection = PlayerShootingDirection - transform.position;
-        //transform.rotation = Quaternion.LookRotation(Vector3.up, PlayerLookAtDirection);
+        Vector3 PlayerTouchDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.LookAt(PlayerTouchDirection);
+        transform.rotation = Quaternion.Euler(new Vector3(0.0f, transform.rotation.eulerAngles.y, 0.0f));
 
         //Goes through the object pool and sets one to active if it's inactive
         for (int i = 0; i < BulletObjectPool.Count; i++)
@@ -93,19 +114,31 @@ public class PlayerManagerScript : MonoBehaviour {
                 BulletObjectPool[i].SetActive(true);
 
                 BulletObjectPool[i].transform.position = transform.position;
-                BulletObjectPool[i].transform.eulerAngles = new Vector3(90.0f, transform.eulerAngles.y, transform.eulerAngles.z);
+                BulletObjectPool[i].transform.eulerAngles = new Vector3(90.0f, transform.eulerAngles.y, FireAngle);
 
                 Rigidbody rigidComponent = BulletObjectPool[i].GetComponent<Rigidbody>();
-                rigidComponent.velocity = transform.forward * BulletTravelSpeed;
-
-                //Vector3.Slerp(BulletObjectPool[i].transform.position, BulletTrajectory, BulletTravelSpeed);
+                rigidComponent.AddForce(transform.forward * BulletTravelSpeed);
 
                 HasBulletFired = true;
             }
-
-            transform.LookAt(BulletObjectPool[i].transform);
         }
     }
 
+    public void CorrectingPlayerPosition()
+    {
+        if ((transform.position.y < 1) || (transform.position.y > 1))
+        {
+            transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
+        }
 
+        if ((transform.rotation.x < 0) || (transform.rotation.x > 0))
+        {
+            transform.rotation = new Quaternion(0.0f, transform.rotation.y, 0.0f, 0.0f);
+        }
+
+        if ((transform.rotation.z < 0) || (transform.rotation.z > 0))
+        {
+            transform.rotation = new Quaternion(0.0f, transform.rotation.y, 0.0f, 0.0f);
+        }
+    }
 }
