@@ -103,9 +103,20 @@ public class PlayerManagerScript : MonoBehaviour {
     public void PlayerFiring()
     {
         //Takes the mouse position and converts it from screen to world
-        Vector3 PlayerTouchDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.LookAt(PlayerTouchDirection);
-        transform.rotation = Quaternion.Euler(new Vector3(0.0f, transform.rotation.eulerAngles.y, 0.0f));
+        //Vector3 PlayerTouchDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //transform.LookAt(PlayerTouchDirection);
+        //transform.rotation = Quaternion.Euler(new Vector3(0.0f, transform.rotation.eulerAngles.y, 0.0f));
+
+        Ray playerHitsRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        Physics.Raycast(playerHitsRay, out hit, 100);
+
+        Debug.Log(hit.point);
+
+        Vector3 PointToLokkAt = hit.point;
+        PointToLokkAt.y = this.transform.position.y;
+
+        transform.LookAt(PointToLokkAt);
 
         //Goes through the object pool and sets one to active if it's inactive
         for (int i = 0; i < BulletObjectPool.Count; i++)
