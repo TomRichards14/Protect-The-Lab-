@@ -8,8 +8,8 @@ public class EnemyManagerScript : MonoBehaviour {
     public GameObject CoreEnemyPrefab;
     //public GameObject PlayerGameObject;
 
-    public float SpawnXPosition;
-    public float SpawnZPosition;
+    private float SpawnXPosition;
+    private float SpawnZPosition;
 
     private int QuantityOfEnemiesInObjectPool = 250;
     private int CurrentNormalQuantityInWave;
