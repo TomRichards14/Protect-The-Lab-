@@ -26,8 +26,8 @@ public class EnemyManagerScript : MonoBehaviour {
         IsCurrentWaveOver = true;
         NormalEnemiesObjectPool = new List<GameObject>();
         SpecialEnemiesObjectPool = new List<GameObject>();
-        CurrentNormalQuantityInWave = 20;
-        CurrentSpecialQuantityInWave = 5;
+        CurrentNormalQuantityInWave = 10;
+        CurrentSpecialQuantityInWave = 2;
 
         //Object pool for the normal enemies that chase the player
         for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)

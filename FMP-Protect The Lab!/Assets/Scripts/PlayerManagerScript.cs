@@ -8,11 +8,11 @@ public class PlayerManagerScript : MonoBehaviour {
 
     private float PlayerMovementSpeed = 5.0f;
     private float PlayerRotationSpeed = 250.0f;
-    private float BulletTravelSpeed = 0.5f;
+    private float BulletTravelSpeed = 1500.0f;
     public float FireAngle;
 
     private int QuantityOfBulletsInObjectPool = 25;
-    public int MaximumHealth = 100;
+    public int MaximumHealth = 1000;
     public int CurrentHealth;
     public int AmmoCapacity = 9;
 
@@ -80,12 +80,12 @@ public class PlayerManagerScript : MonoBehaviour {
         ///*
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(PlayerMovementSpeed * Time.deltaTime, 0, 0);
+            transform.Translate(0, 0, PlayerMovementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(-PlayerMovementSpeed * Time.deltaTime, 0, 0);
+            transform.Translate(0, 0, -PlayerMovementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.A))

@@ -203,7 +203,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -700, y: 450}
-  m_SizeDelta: {x: 500, y: 250}
+  m_SizeDelta: {x: 750, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &358907169
 MonoBehaviour:
@@ -720,7 +720,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainGameHealthText: {fileID: 358907169}
-  PlayerReference: {fileID: 0}
 --- !u!1 &1189647920
 GameObject:
   m_ObjectHideFlags: 0

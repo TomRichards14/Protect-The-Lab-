@@ -6,7 +6,7 @@ using UnityEngine;
 public class MainGameUIScript : MonoBehaviour {
 
     public Text mainGameHealthText;
-    public PlayerManagerScript PlayerReference;
+    private PlayerManagerScript PlayerReference;
 
 	// Use this for initialization
 	void Start ()
@@ -17,6 +17,6 @@ public class MainGameUIScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        mainGameHealthText.text = "Health: " + PlayerReference.CurrentHealth;
+        mainGameHealthText.text = "HEALTH: " + PlayerReference.CurrentHealth;
 	}
 }
