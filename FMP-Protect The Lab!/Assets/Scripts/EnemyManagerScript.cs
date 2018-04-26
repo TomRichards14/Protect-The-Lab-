@@ -52,6 +52,9 @@ public class EnemyManagerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        Debug.Log("X position " + SpawnXPosition);
+        Debug.Log("Z position " + SpawnZPosition);
+
         /*ChooseNewSpawnPoint();
         SpawnNextWave();*/
 
@@ -72,14 +75,18 @@ public class EnemyManagerScript : MonoBehaviour {
             //Spawn on the right side
             if (Random.value <= 0.5f)
             {
-                SpawnZPosition = Random.Range(-28.0f, -40.0f);
-                SpawnXPosition = Random.Range(-17.0f, 17.0f);                
+                Debug.Log("Right Spawn");
+                SpawnXPosition = Random.Range(40.0f, 45.0f);
+                SpawnZPosition = Random.Range(-26.0f, 26.0f);
+                
             }
             //Spawn on the left side
             else
             {
-                SpawnZPosition = Random.Range(28.0f, 40.0f);
-                SpawnXPosition = Random.Range(-17.0f, 17.0f);
+                Debug.Log("Left Spawn");
+                SpawnXPosition = Random.Range(-40.0f, -45.0f);
+                SpawnZPosition = Random.Range(-26.0f, 26.0f);
+                
             }
         }
         //Spawn on the top/bottom
@@ -88,14 +95,17 @@ public class EnemyManagerScript : MonoBehaviour {
             //Spawn on the top
             if (Random.value <= 0.5f)
             {
-                SpawnZPosition = Random.Range(-30.0f, 30.0f);
-                SpawnXPosition = Random.Range(18.0f, 25.0f);
+                Debug.Log("Top Spawn");
+                SpawnXPosition = Random.Range(-45.0f, 45.0f);
+                SpawnZPosition = Random.Range(20.0f, 26.0f);
+                
             }
             //Spawn on the bottom
             else
             {
-                SpawnZPosition = Random.Range(-30.0f, 30.0f);
-                SpawnXPosition = Random.Range(-18.0f, -25.0f);
+                Debug.Log("Bottom Spawn");
+                SpawnXPosition = Random.Range(-45.0f, 45.0f);
+                SpawnZPosition = Random.Range(-20.0f, -26.0f);
             }
         }
     }

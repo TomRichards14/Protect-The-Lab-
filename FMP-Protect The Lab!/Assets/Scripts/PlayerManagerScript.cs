@@ -49,8 +49,6 @@ public class PlayerManagerScript : MonoBehaviour {
         CheckForMovementInput();
         CorrectingPlayerPosition();
 
-        Debug.Log(AmmoCapacity);
-
         //If the player has died
         if (CurrentHealth <= 0)
         {
