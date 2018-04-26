@@ -12,11 +12,12 @@ public class PlayerManagerScript : MonoBehaviour {
     public float FireAngle;
 
     private int QuantityOfBulletsInObjectPool = 25;
-    public int MaximumHealth = 1000;
+    private int MaximumHealth = 1000;
     public int CurrentHealth;
-    public int AmmoCapacity = 9;
+    private int AmmoCapacity = 10;
 
     private bool HasBulletFired;
+    private bool IsPlayerDead;
 
     public Vector3 PlayerDirection = Vector3.zero;
     public Vector3 MousePosition;
@@ -30,6 +31,7 @@ public class PlayerManagerScript : MonoBehaviour {
         //Instantiating the object pool for the bullets
         BulletObjectPool = new List<GameObject>();
         HasBulletFired = false;
+        IsPlayerDead = false;
         CurrentHealth = MaximumHealth;
 
         //Adding the GameObjects to the object pool
@@ -43,12 +45,18 @@ public class PlayerManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update ()
-    {
-        //Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        //Debug.Log(Input.mousePosition);
-
+    { 
         CheckForMovementInput();
         CorrectingPlayerPosition();
+
+        Debug.Log(AmmoCapacity);
+
+        //If the player has died
+        if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
+            IsPlayerDead = true;
+        }
 
         if (Input.GetButtonDown("Fire1"))
         {
@@ -70,10 +78,6 @@ public class PlayerManagerScript : MonoBehaviour {
         {
 
         }*/
-
-
-
-
 
 
         //Movement for testing on Windows
@@ -103,9 +107,6 @@ public class PlayerManagerScript : MonoBehaviour {
     public void PlayerFiring()
     {
         //Takes the mouse position and converts it from screen to world
-        //Vector3 PlayerTouchDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //transform.LookAt(PlayerTouchDirection);
-        //transform.rotation = Quaternion.Euler(new Vector3(0.0f, transform.rotation.eulerAngles.y, 0.0f));
 
         Ray playerHitsRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;

@@ -202,8 +202,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -700, y: 450}
-  m_SizeDelta: {x: 750, y: 500}
+  m_AnchoredPosition: {x: -550, y: 450}
+  m_SizeDelta: {x: 750, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &358907169
 MonoBehaviour:
@@ -231,13 +231,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 8
     m_MaxSize: 101
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'HEALTH: 100'
+  m_Text: 'HEALTH: 1000'
 --- !u!222 &358907170
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -838,9 +838,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 1454854176615836, guid: 672b6aae77d020b4ab7f9401e3176a08,
     type: 2}
   FireAngle: 0
-  MaximumHealth: 100
   CurrentHealth: 0
-  AmmoCapacity: 9
   PlayerDirection: {x: 0, y: 0, z: 0}
   MousePosition: {x: 0, y: 0, z: 0}
   RotatePlayerTo: {x: 0, y: 0, z: 0}
