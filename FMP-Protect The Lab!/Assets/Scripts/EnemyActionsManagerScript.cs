@@ -43,17 +43,19 @@ public class EnemyActionsManagerScript : MonoBehaviour {
         stateMachine.Update();
     }
 
-	public void MoveTowardsObject(GameObject AIPointOfInterest)
+	public void MoveTowardsPlayer()
     {
-        EnemyAgent.destination = AIPointOfInterest.transform.position;
+        EnemyAgent.destination = GameObject.FindGameObjectWithTag("Player").transform.position;
     }
 
-    public void AttackPlayer(GameObject PlayerGameObject)
+    public void MoveTowardsCore()
     {
-        if ((PlayerGameObject.CompareTag(ConstantTags.PlayerTag)) && (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < MeleeRange))
-        {
-            PlayerGameObject.GetComponent<PlayerManagerScript>().CurrentHealth -= AttackDamage;
-        }
+        EnemyAgent.destination = GameObject.FindGameObjectWithTag("Core").transform.position;
+    }
+
+    public void AttackPlayer()
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManagerScript>().CurrentHealth -= AttackDamage;
     }
 
     public void CollectCorePiece(GameObject CorePiece)
@@ -151,11 +153,15 @@ public class ChasePlayer : State<EnemyActionsManagerScript>
     {
         if (Enemy.tag == "Normal")
         {
-            Enemy.MoveTowardsObject(Enemy.PlayerGameObject);
+            Enemy.MoveTowardsPlayer();
+            if (Vector3.Distance(Enemy.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < 1.0f)
+            {
+                Enemy.stateMachine.ChangeState(AttackPlayer.Instance);
+            }
         }
         else
         {
-            Enemy.MoveTowardsObject(Enemy.PlayerGameObject);
+            Enemy.MoveTowardsCore();
         }
     }
 
@@ -164,4 +170,40 @@ public class ChasePlayer : State<EnemyActionsManagerScript>
         Debug.Log("Leaving ChasePlayer State" + Enemy.gameObject);
     }
     #endregion
+}
+
+public class AttackPlayer : State<EnemyActionsManagerScript>
+{
+    #region AttackPlayer state instance set up
+    static readonly AttackPlayer instance = new AttackPlayer();
+    public static AttackPlayer Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    static AttackPlayer() { }
+    private AttackPlayer() { }
+    #endregion
+
+    public override void EnterState(EnemyActionsManagerScript Enemy)
+    {
+        Enemy.AIState = "AttackPlayer";
+        Debug.Log("Entering AttackPlayer State" + Enemy.gameObject);
+    }
+
+    public override void ExecuteState(EnemyActionsManagerScript Enemy)
+    {
+        Enemy.AttackPlayer();
+        if (Vector3.Distance(Enemy.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) > 1.0f)
+        {
+            Enemy.stateMachine.ChangeState(ChasePlayer.Instance);
+        }
+    }
+
+    public override void ExitState(EnemyActionsManagerScript Enemy)
+    {
+        Debug.Log("Leaving AttackPlayer State" + Enemy.gameObject);
+    }
 }

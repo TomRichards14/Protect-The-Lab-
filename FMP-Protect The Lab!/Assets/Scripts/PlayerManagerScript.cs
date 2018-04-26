@@ -14,6 +14,7 @@ public class PlayerManagerScript : MonoBehaviour {
     private int QuantityOfBulletsInObjectPool = 25;
     public int MaximumHealth = 100;
     public int CurrentHealth;
+    public int AmmoCapacity = 9;
 
     private bool HasBulletFired;
 

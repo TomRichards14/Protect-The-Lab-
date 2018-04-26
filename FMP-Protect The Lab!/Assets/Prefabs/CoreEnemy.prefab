@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23690203274921514}
   - component: {fileID: 54340923100691688}
   - component: {fileID: 195348200736127490}
-  - component: {fileID: 114133264232242508}
+  - component: {fileID: 114491675263267826}
   m_Layer: 0
   m_Name: CoreEnemy
   m_TagString: Special
@@ -99,7 +99,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114133264232242508
+--- !u!114 &114491675263267826
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -115,8 +115,7 @@ MonoBehaviour:
   IsAlive: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   AIState: 
-  PlayerGameObject: {fileID: 1988323653640070, guid: b4edc79da01b5ea4cadd6bc1e8db7f8a,
-    type: 2}
+  PlayerGameObject: {fileID: 0}
 --- !u!136 &136468891710746660
 CapsuleCollider:
   m_ObjectHideFlags: 1
