@@ -712,7 +712,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1083621200}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 161e1c4d72234244c859a36394e07fdb, type: 3}
   m_Name: 
@@ -721,8 +721,6 @@ MonoBehaviour:
     type: 2}
   CoreEnemyPrefab: {fileID: 1512214442704534, guid: 39ffd8511fad9ca46aa0f9d087c4a3c0,
     type: 2}
-  SpawnXPosition: 0
-  SpawnZPosition: 0
   IsCurrentWaveOver: 0
 --- !u!114 &1083621203
 MonoBehaviour:
@@ -871,6 +869,7 @@ MonoBehaviour:
     type: 2}
   FireAngle: 0
   CurrentHealth: 0
+  CurrentAmmo: 0
   PlayerDirection: {x: 0, y: 0, z: 0}
   MousePosition: {x: 0, y: 0, z: 0}
   RotatePlayerTo: {x: 0, y: 0, z: 0}

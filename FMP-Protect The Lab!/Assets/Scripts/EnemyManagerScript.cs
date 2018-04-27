@@ -118,7 +118,7 @@ public class EnemyManagerScript : MonoBehaviour {
             {
                 NormalEnemiesObjectPool[i].SetActive(true);
 
-                NormalEnemiesObjectPool[i].transform.position = new Vector3(SpawnXPosition + Random.Range(-1.0f, 1.0f), 1.0f, SpawnZPosition + Random.Range(-1.0f, 1.0f) );
+                NormalEnemiesObjectPool[i].transform.position = new Vector3(SpawnXPosition, 1.0f, SpawnZPosition);
                 NormalEnemiesObjectPool[i].transform.eulerAngles = transform.eulerAngles;
             }
         }
@@ -129,7 +129,7 @@ public class EnemyManagerScript : MonoBehaviour {
             {
                 SpecialEnemiesObjectPool[i].SetActive(true);
 
-                SpecialEnemiesObjectPool[i].transform.position = new Vector3(SpawnXPosition + Random.Range(-1.0f, 1.0f), 1.0f, SpawnZPosition + Random.Range(-1.0f, 1.0f));
+                SpecialEnemiesObjectPool[i].transform.position = new Vector3(SpawnXPosition, 1.0f, SpawnZPosition);
                 SpecialEnemiesObjectPool[i].transform.eulerAngles = transform.eulerAngles;
             }
         }

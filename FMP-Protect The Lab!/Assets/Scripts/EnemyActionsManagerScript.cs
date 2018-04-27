@@ -25,7 +25,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
     private NavMeshAgent EnemyAgent;
 
     public string AIState;
-    public GameObject PlayerGameObject;
+    //public GameObject PlayerGameObject;
     public AIStateMachine<EnemyActionsManagerScript> stateMachine { get; set; }
 
 	// Use this for initialization

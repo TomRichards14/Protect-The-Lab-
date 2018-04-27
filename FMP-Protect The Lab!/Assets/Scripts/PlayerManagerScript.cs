@@ -9,15 +9,18 @@ public class PlayerManagerScript : MonoBehaviour {
     private float PlayerMovementSpeed = 5.0f;
     private float PlayerRotationSpeed = 250.0f;
     private float BulletTravelSpeed = 1500.0f;
+    private float ReloadTimer = 2.0f;
     public float FireAngle;
 
     private int QuantityOfBulletsInObjectPool = 25;
     private int MaximumHealth = 1000;
     public int CurrentHealth;
     private int AmmoCapacity = 10;
+    public int CurrentAmmo;
 
-    private bool HasBulletFired;
-    private bool IsPlayerDead;
+    private bool HasBulletFired = false;
+    private bool IsPlayerDead = false;
+    private bool GunIsReloading = false;
 
     public Vector3 PlayerDirection = Vector3.zero;
     public Vector3 MousePosition;
@@ -30,9 +33,10 @@ public class PlayerManagerScript : MonoBehaviour {
     {
         //Instantiating the object pool for the bullets
         BulletObjectPool = new List<GameObject>();
-        HasBulletFired = false;
-        IsPlayerDead = false;
+        //HasBulletFired = false;
+        //IsPlayerDead = false;
         CurrentHealth = MaximumHealth;
+        CurrentAmmo = AmmoCapacity;
 
         //Adding the GameObjects to the object pool
         for (int i = 0; i < QuantityOfBulletsInObjectPool; i++)
@@ -49,6 +53,11 @@ public class PlayerManagerScript : MonoBehaviour {
         CheckForMovementInput();
         CorrectingPlayerPosition();
 
+        if (CurrentAmmo <= 0)
+        {
+            StartCoroutine(GunReload());
+        }
+
         //If the player has died
         if (CurrentHealth <= 0)
         {
@@ -56,11 +65,21 @@ public class PlayerManagerScript : MonoBehaviour {
             IsPlayerDead = true;
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if ((Input.GetButtonDown("Fire1")) && (GunIsReloading == false))
         {
             HasBulletFired = false;
             PlayerFiring();
         }        
+    }
+
+    IEnumerator GunReload()
+    {
+        Debug.Log("Reloading...");
+        GunIsReloading = true;
+
+        yield return new WaitForSeconds(ReloadTimer);
+        CurrentAmmo = AmmoCapacity;
+        GunIsReloading = false;
     }
 
     public void CheckForMovementInput()
@@ -110,12 +129,14 @@ public class PlayerManagerScript : MonoBehaviour {
         RaycastHit hit;
         Physics.Raycast(playerHitsRay, out hit, 100);
 
-        Debug.Log(hit.point);
+        //Debug.Log(hit.point);
 
         Vector3 PointToLokkAt = hit.point;
         PointToLokkAt.y = this.transform.position.y;
 
         transform.LookAt(PointToLokkAt);
+
+        CurrentAmmo--;
 
         //Goes through the object pool and sets one to active if it's inactive
         for (int i = 0; i < BulletObjectPool.Count; i++)
