@@ -63,6 +63,8 @@ public class EnemyManagerScript : MonoBehaviour {
             SpawnXPosition = 0.0f;
             ChooseNewSpawnPoint();
             SpawnNextWave();
+            AllNormalEnemiesDead = false;
+            AllSpecialEnemiesDead = false;
         }
     }
 
