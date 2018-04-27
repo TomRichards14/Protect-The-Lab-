@@ -18,15 +18,17 @@ public class EnemyManagerScript : MonoBehaviour {
     List<GameObject> NormalEnemiesObjectPool;
     List<GameObject> SpecialEnemiesObjectPool;
 
-    public bool IsCurrentWaveOver;
+    public bool AllNormalEnemiesDead;
+    public bool AllSpecialEnemiesDead;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
-        IsCurrentWaveOver = true;
+        AllNormalEnemiesDead = true;
+        AllSpecialEnemiesDead = true;
         NormalEnemiesObjectPool = new List<GameObject>();
         SpecialEnemiesObjectPool = new List<GameObject>();
-        CurrentNormalQuantityInWave = 10;
+        CurrentNormalQuantityInWave = 0;
         CurrentSpecialQuantityInWave = 2;
 
         //Object pool for the normal enemies that chase the player
@@ -45,23 +47,23 @@ public class EnemyManagerScript : MonoBehaviour {
             SpecialEnemiesObjectPool.Add(obj);
         }
 
-        ChooseNewSpawnPoint();
-        SpawnNextWave();
+        //ChooseNewSpawnPoint();
+        //SpawnNextWave();
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        /*ChooseNewSpawnPoint();
-        SpawnNextWave();*/
 
-        /*if (IsCurrentWaveOver == true)
+    // Update is called once per frame
+    void Update()
+    {
+        CheckIfWaveIsOver();
+
+        if ((AllNormalEnemiesDead == true) && (AllSpecialEnemiesDead == true))
         {
-            CurrentNormalQuantityInWave += 10;
-            CurrentSpecialQuantityInWave += 10;
+            CurrentNormalQuantityInWave += 5;
+            CurrentSpecialQuantityInWave += 1;
             SpawnXPosition = 0.0f;
             ChooseNewSpawnPoint();
-        }*/
+            SpawnNextWave();
+        }
     }
 
     void ChooseNewSpawnPoint()
@@ -75,7 +77,7 @@ public class EnemyManagerScript : MonoBehaviour {
                 Debug.Log("Right Spawn");
                 SpawnXPosition = Random.Range(40.0f, 45.0f);
                 SpawnZPosition = Random.Range(-26.0f, 26.0f);
-                
+
             }
             //Spawn on the left side
             else
@@ -83,7 +85,7 @@ public class EnemyManagerScript : MonoBehaviour {
                 Debug.Log("Left Spawn");
                 SpawnXPosition = Random.Range(-40.0f, -45.0f);
                 SpawnZPosition = Random.Range(-26.0f, 26.0f);
-                
+
             }
         }
         //Spawn on the top/bottom
@@ -95,7 +97,7 @@ public class EnemyManagerScript : MonoBehaviour {
                 Debug.Log("Top Spawn");
                 SpawnXPosition = Random.Range(-45.0f, 45.0f);
                 SpawnZPosition = Random.Range(20.0f, 26.0f);
-                
+
             }
             //Spawn on the bottom
             else
@@ -128,6 +130,33 @@ public class EnemyManagerScript : MonoBehaviour {
 
                 SpecialEnemiesObjectPool[i].transform.position = new Vector3(SpawnXPosition, 1.0f, SpawnZPosition);
                 SpecialEnemiesObjectPool[i].transform.eulerAngles = transform.eulerAngles;
+            }
+        }
+    }
+
+    public void CheckIfWaveIsOver()
+    {
+        for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)
+        {
+            if (!NormalEnemiesObjectPool[i].activeInHierarchy)
+            {
+                AllNormalEnemiesDead = true;
+            }
+            else
+            {
+                AllNormalEnemiesDead = false;
+            }
+        }
+
+        for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)
+        {
+            if (!SpecialEnemiesObjectPool[i].activeInHierarchy)
+            {
+                AllSpecialEnemiesDead = true;
+            }
+            else
+            {
+                AllSpecialEnemiesDead = false;
             }
         }
     }

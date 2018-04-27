@@ -86,8 +86,8 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     public void FleeWithCorePiece()
     {
-        ReturnLocation = new Vector3(SpawnPosition.x + Random.Range(-5.0f, 5.0f), SpawnPosition.y, SpawnPosition.z + Random.Range(-5.0f, 5.0f));
-        EnemyAgent.destination = ReturnLocation;
+        //ReturnLocation = new Vector3(SpawnPosition.x + Random.Range(-5.0f, 5.0f), SpawnPosition.y, SpawnPosition.z + Random.Range(-5.0f, 5.0f));
+        EnemyAgent.destination = SpawnPosition;
     }
 
     public void EnemyDeath()
@@ -301,7 +301,7 @@ public class Flee : State<EnemyActionsManagerScript>
 
     public override void ExecuteState(EnemyActionsManagerScript Enemy)
     {
-        if (Enemy.transform.position == Enemy.GetComponent<EnemyActionsManagerScript>().ReturnLocation)
+        if (Enemy.transform.position == new Vector3(Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.x + Random.Range(-2.0f, 2.0f), Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.y, Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.z + Random.Range(-2.0f, 2.0f)))
         {
             Enemy.stateMachine.ChangeState(ChasePlayer.Instance);
         }
