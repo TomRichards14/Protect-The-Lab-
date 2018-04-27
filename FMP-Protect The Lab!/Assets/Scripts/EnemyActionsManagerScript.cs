@@ -11,7 +11,7 @@ public static class ConstantTags
 
 public class EnemyActionsManagerScript : MonoBehaviour {
 
-    public int MaximumHealth = 100;
+    private int MaximumHealth = 100;
     public int CurrentHealth;
     public const int AttackDamage = 5;
 
@@ -43,7 +43,15 @@ public class EnemyActionsManagerScript : MonoBehaviour {
         stateMachine.Update();
     }
 
-	public void MoveTowardsPlayer()
+    public void OnCollisionEnter(Collision OtherCollider)
+    {
+        if (OtherCollider.gameObject.tag == "Bullet")
+        {
+            CurrentHealth -= GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManagerScript>().BulletDamage;
+        }
+    }
+
+    public void MoveTowardsPlayer()
     {
         EnemyAgent.destination = GameObject.FindGameObjectWithTag("Player").transform.position;
     }
@@ -68,18 +76,10 @@ public class EnemyActionsManagerScript : MonoBehaviour {
         EnemyAgent.destination = SpawnPosition;
     }
 
-    public void TakeDamage(int DamageTaken)
-    {
-        CurrentHealth -= DamageTaken;
-        if (CurrentHealth <= 0)
-        {
-            EnemyDeath();
-        }
-    }
-
     public void EnemyDeath()
     {
         IsAlive = false;
+        gameObject.SetActive(false);
     }
 }
 
@@ -163,6 +163,11 @@ public class ChasePlayer : State<EnemyActionsManagerScript>
         {
             Enemy.MoveTowardsCore();
         }
+
+        if (Enemy.CurrentHealth <= 0)
+        {
+            Enemy.stateMachine.ChangeState(AIDeath.Instance);
+        }
     }
 
     public override void ExitState(EnemyActionsManagerScript Enemy)
@@ -187,6 +192,7 @@ public class AttackPlayer : State<EnemyActionsManagerScript>
     private AttackPlayer() { }
     #endregion
 
+    #region AttackPlayer State Machine
     public override void EnterState(EnemyActionsManagerScript Enemy)
     {
         Enemy.AIState = "AttackPlayer";
@@ -200,10 +206,51 @@ public class AttackPlayer : State<EnemyActionsManagerScript>
         {
             Enemy.stateMachine.ChangeState(ChasePlayer.Instance);
         }
+
+        if (Enemy.CurrentHealth <= 0)
+        {
+            Enemy.stateMachine.ChangeState(AIDeath.Instance);
+        }
     }
 
     public override void ExitState(EnemyActionsManagerScript Enemy)
     {
         Debug.Log("Leaving AttackPlayer State" + Enemy.gameObject);
     }
+    #endregion
+}
+
+public class AIDeath : State<EnemyActionsManagerScript>
+{
+    #region AIDeath state instance set up
+    static readonly AIDeath instance = new AIDeath();
+    public static AIDeath Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    static AIDeath() { }
+    private AIDeath() { }
+    #endregion
+
+
+    #region AIDeath State Machine
+    public override void EnterState(EnemyActionsManagerScript Enemy)
+    {
+        Enemy.AIState = "AIDeath";
+        Debug.Log("Entering AIDeath State" + Enemy.gameObject);
+    }
+
+    public override void ExecuteState(EnemyActionsManagerScript Enemy)
+    {
+        Enemy.EnemyDeath();
+    }
+
+    public override void ExitState(EnemyActionsManagerScript Enemy)
+    {
+        Debug.Log("Leaving AIDeath State" + Enemy.gameObject);
+    }
+    #endregion
 }

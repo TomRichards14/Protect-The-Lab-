@@ -17,6 +17,7 @@ public class PlayerManagerScript : MonoBehaviour {
     public int CurrentHealth;
     private int AmmoCapacity = 10;
     public int CurrentAmmo;
+    public int BulletDamage;
 
     private bool HasBulletFired = false;
     private bool IsPlayerDead = false;
@@ -33,10 +34,9 @@ public class PlayerManagerScript : MonoBehaviour {
     {
         //Instantiating the object pool for the bullets
         BulletObjectPool = new List<GameObject>();
-        //HasBulletFired = false;
-        //IsPlayerDead = false;
         CurrentHealth = MaximumHealth;
         CurrentAmmo = AmmoCapacity;
+        BulletDamage = 20;
 
         //Adding the GameObjects to the object pool
         for (int i = 0; i < QuantityOfBulletsInObjectPool; i++)

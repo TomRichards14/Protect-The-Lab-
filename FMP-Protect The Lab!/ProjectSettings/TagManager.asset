@@ -7,6 +7,7 @@ TagManager:
   - Core
   - Normal
   - Special
+  - Bullet
   layers:
   - Default
   - TransparentFX
