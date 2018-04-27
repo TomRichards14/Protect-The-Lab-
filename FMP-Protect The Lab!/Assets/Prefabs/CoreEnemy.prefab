@@ -110,12 +110,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd30d196337be045af6f6c356a258a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaximumHealth: 100
   CurrentHealth: 0
   IsAlive: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   AIState: 
-  PlayerGameObject: {fileID: 0}
+  CorePieces: []
 --- !u!136 &136468891710746660
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -138,7 +137,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

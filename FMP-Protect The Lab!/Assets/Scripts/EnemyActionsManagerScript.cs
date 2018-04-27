@@ -25,7 +25,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
     private NavMeshAgent EnemyAgent;
 
     public string AIState;
-    //public GameObject PlayerGameObject;
+    public GameObject[] CorePieces;
     public AIStateMachine<EnemyActionsManagerScript> stateMachine { get; set; }
 
 	// Use this for initialization
@@ -37,6 +37,8 @@ public class EnemyActionsManagerScript : MonoBehaviour {
         SpawnPosition = transform.position;
         CurrentHealth = MaximumHealth;
         IsAlive = true;
+
+        CorePieces = GameObject.FindGameObjectsWithTag("Core");
 	}
 	void Update ()
     {
@@ -58,7 +60,24 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     public void MoveTowardsCore()
     {
-        EnemyAgent.destination = GameObject.FindGameObjectWithTag("Core").transform.position;
+        float ShortestDistanceToPiece = 100.0f;
+        Vector3 CoreTarget = new Vector3(0.0f, 0.0f, 0.0f);
+
+        for (int i = 0; i < CorePieces.Length; i++)
+        {
+            float DistanceToPiece = Vector3.Distance(transform.position, CorePieces[i].transform.position);
+            if (DistanceToPiece < ShortestDistanceToPiece)
+            {
+                ShortestDistanceToPiece = DistanceToPiece;
+                CoreTarget = CorePieces[i].transform.position;
+            }
+
+            EnemyAgent.destination = CoreTarget;
+        }
+
+        
+
+        //EnemyAgent.destination = GameObject.FindGameObjectWithTag("Core").transform.position;
     }
 
     public void AttackPlayer()

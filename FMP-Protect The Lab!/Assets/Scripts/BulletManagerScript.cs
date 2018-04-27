@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletManagerScript : MonoBehaviour {
 
-    private float RemoveBulletTimer = 10.0f;
+    private float RemoveBulletTimer = 5.0f;
 
 	// Use this for initialization
 	void Start ()
