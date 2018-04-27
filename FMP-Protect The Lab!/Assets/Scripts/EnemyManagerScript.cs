@@ -52,9 +52,6 @@ public class EnemyManagerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log("X position " + SpawnXPosition);
-        Debug.Log("Z position " + SpawnZPosition);
-
         /*ChooseNewSpawnPoint();
         SpawnNextWave();*/
 

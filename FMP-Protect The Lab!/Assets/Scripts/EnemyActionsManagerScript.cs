@@ -21,15 +21,18 @@ public class EnemyActionsManagerScript : MonoBehaviour {
     public bool IsAlive;
 
     public Vector3 SpawnPosition;
+    public Vector3 ReturnLocation;
 
     private NavMeshAgent EnemyAgent;
 
     public string AIState;
     public GameObject[] CorePieces;
     public AIStateMachine<EnemyActionsManagerScript> stateMachine { get; set; }
+    private float ShortestDistanceToPiece = 100.0f;
+    public Vector3 CoreTarget = new Vector3(0.0f, 0.0f, 0.0f);
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         EnemyAgent = GetComponent<NavMeshAgent>();
         stateMachine = new AIStateMachine<EnemyActionsManagerScript>(this);
@@ -60,8 +63,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     public void MoveTowardsCore()
     {
-        float ShortestDistanceToPiece = 100.0f;
-        Vector3 CoreTarget = new Vector3(0.0f, 0.0f, 0.0f);
+        
 
         for (int i = 0; i < CorePieces.Length; i++)
         {
@@ -74,9 +76,6 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
             EnemyAgent.destination = CoreTarget;
         }
-
-        
-
         //EnemyAgent.destination = GameObject.FindGameObjectWithTag("Core").transform.position;
     }
 
@@ -85,14 +84,10 @@ public class EnemyActionsManagerScript : MonoBehaviour {
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManagerScript>().CurrentHealth -= AttackDamage;
     }
 
-    public void CollectCorePiece(GameObject CorePiece)
-    {
-
-    }
-
     public void FleeWithCorePiece()
     {
-        EnemyAgent.destination = SpawnPosition;
+        ReturnLocation = new Vector3(SpawnPosition.x + Random.Range(-5.0f, 5.0f), SpawnPosition.y, SpawnPosition.z + Random.Range(-5.0f, 5.0f));
+        EnemyAgent.destination = ReturnLocation;
     }
 
     public void EnemyDeath()
@@ -180,7 +175,14 @@ public class ChasePlayer : State<EnemyActionsManagerScript>
         }
         else
         {
-            Enemy.MoveTowardsCore();
+            if (Vector3.Distance(Enemy.transform.position, Enemy.GetComponent<EnemyActionsManagerScript>().CoreTarget) < 1.0f)
+            {
+                Enemy.stateMachine.ChangeState(Flee.Instance);
+            }
+            else
+            {
+                Enemy.MoveTowardsCore();
+            }
         }
 
         if (Enemy.CurrentHealth <= 0)
@@ -270,6 +272,48 @@ public class AIDeath : State<EnemyActionsManagerScript>
     public override void ExitState(EnemyActionsManagerScript Enemy)
     {
         Debug.Log("Leaving AIDeath State" + Enemy.gameObject);
+    }
+    #endregion
+}
+
+public class Flee : State<EnemyActionsManagerScript>
+{
+    #region Flee state instance set up
+    static readonly Flee instance = new Flee();
+    public static Flee Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    static Flee() { }
+    private Flee() { }
+    #endregion
+
+
+    #region Flee State Machine
+    public override void EnterState(EnemyActionsManagerScript Enemy)
+    {
+        Enemy.AIState = "Flee";
+        Debug.Log("Entering Flee State" + Enemy.gameObject);
+    }
+
+    public override void ExecuteState(EnemyActionsManagerScript Enemy)
+    {
+        if (Enemy.transform.position == Enemy.GetComponent<EnemyActionsManagerScript>().ReturnLocation)
+        {
+            Enemy.stateMachine.ChangeState(ChasePlayer.Instance);
+        }
+        else
+        {
+            Enemy.FleeWithCorePiece();
+        }
+    }
+
+    public override void ExitState(EnemyActionsManagerScript Enemy)
+    {
+        Debug.Log("Leaving Flee State" + Enemy.gameObject);
     }
     #endregion
 }

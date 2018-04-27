@@ -870,6 +870,7 @@ MonoBehaviour:
   FireAngle: 0
   CurrentHealth: 0
   CurrentAmmo: 0
+  BulletDamage: 0
   PlayerDirection: {x: 0, y: 0, z: 0}
   MousePosition: {x: 0, y: 0, z: 0}
   RotatePlayerTo: {x: 0, y: 0, z: 0}
