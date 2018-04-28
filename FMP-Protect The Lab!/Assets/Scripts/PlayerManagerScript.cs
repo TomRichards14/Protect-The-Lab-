@@ -20,7 +20,7 @@ public class PlayerManagerScript : MonoBehaviour {
     public int BulletDamage;
 
     private bool HasBulletFired = false;
-    private bool IsPlayerDead = false;
+    public bool IsPlayerDead = false;
     private bool GunIsReloading = false;
 
     public Vector3 PlayerDirection = Vector3.zero;
@@ -63,6 +63,7 @@ public class PlayerManagerScript : MonoBehaviour {
         {
             CurrentHealth = 0;
             IsPlayerDead = true;
+            Time.timeScale = 0;
         }
 
         if ((Input.GetButtonDown("Fire1")) && (GunIsReloading == false))

@@ -19,6 +19,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
     public const float CollectRangee = 1.0f;
 
     public bool IsAlive;
+    public bool CarryingCorePiece;
 
     public Vector3 SpawnPosition;
     public Vector3 ReturnLocation;
@@ -54,6 +55,12 @@ public class EnemyActionsManagerScript : MonoBehaviour {
         {
             CurrentHealth -= GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManagerScript>().BulletDamage;
         }
+
+        if (OtherCollider.gameObject.tag == "Core")
+        {
+            CarryingCorePiece = true;
+            OtherCollider.gameObject.SetActive(false);
+        }
     }
 
     public void MoveTowardsPlayer()
@@ -63,8 +70,6 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     public void MoveTowardsCore()
     {
-        
-
         for (int i = 0; i < CorePieces.Length; i++)
         {
             float DistanceToPiece = Vector3.Distance(transform.position, CorePieces[i].transform.position);
@@ -92,6 +97,18 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     public void EnemyDeath()
     {
+        if (CarryingCorePiece == true)
+        {
+            for (int i = 0; i < CorePieces.Length; i++)
+            {
+                if (CorePieces[i].gameObject.activeInHierarchy == false)
+                {
+                    CorePieces[i].gameObject.transform.position = gameObject.transform.position;
+                    CorePieces[i].gameObject.SetActive(true);
+                }
+            }
+        }
+
         IsAlive = false;
         gameObject.SetActive(false);
     }
