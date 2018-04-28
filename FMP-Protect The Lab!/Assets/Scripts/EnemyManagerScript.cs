@@ -6,14 +6,14 @@ public class EnemyManagerScript : MonoBehaviour {
 
     public GameObject NormalEnemyPrefab;
     public GameObject CoreEnemyPrefab;
-    //public GameObject PlayerGameObject;
 
     private float SpawnXPosition;
     private float SpawnZPosition;
 
     private int QuantityOfEnemiesInObjectPool = 250;
-    private int CurrentNormalQuantityInWave;
-    private int CurrentSpecialQuantityInWave;
+    public int CurrentNormalQuantityInWave;
+    public int CurrentSpecialQuantityInWave;
+    public int WaveNumber;
 
     List<GameObject> NormalEnemiesObjectPool;
     List<GameObject> SpecialEnemiesObjectPool;
@@ -28,6 +28,7 @@ public class EnemyManagerScript : MonoBehaviour {
         SpecialEnemiesObjectPool = new List<GameObject>();
         CurrentNormalQuantityInWave = 0;
         CurrentSpecialQuantityInWave = 0;
+        WaveNumber = 1;
 
         //Object pool for the normal enemies that chase the player
         for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)
@@ -138,5 +139,6 @@ public class EnemyManagerScript : MonoBehaviour {
         SpawnXPosition = 0.0f;
         ChooseNewSpawnPoint();
         SelectNewEnemies();
+        WaveNumber += 1;
     }
 }

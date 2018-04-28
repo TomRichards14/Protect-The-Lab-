@@ -309,6 +309,11 @@ public class Flee : State<EnemyActionsManagerScript>
         {
             Enemy.FleeWithCorePiece();
         }
+
+        if (Enemy.CurrentHealth <= 0)
+        {
+            Enemy.stateMachine.ChangeState(AIDeath.Instance);
+        }
     }
 
     public override void ExitState(EnemyActionsManagerScript Enemy)
