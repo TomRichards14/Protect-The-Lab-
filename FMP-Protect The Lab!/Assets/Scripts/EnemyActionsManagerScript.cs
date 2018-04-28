@@ -21,28 +21,31 @@ public class EnemyActionsManagerScript : MonoBehaviour {
     public bool IsAlive;
     public bool CarryingCorePiece;
 
-    public Vector3 SpawnPosition;
+    //public Vector3 SpawnPosition;
     public Vector3 ReturnLocation;
 
     private NavMeshAgent EnemyAgent;
 
     public string AIState;
     public GameObject[] CorePieces;
+    private GameObject[] OutsideWalls;
     public AIStateMachine<EnemyActionsManagerScript> stateMachine { get; set; }
     private float ShortestDistanceToPiece = 100.0f;
+    private float ShortestDistanceToWall = 500.0f;
     public Vector3 CoreTarget = new Vector3(0.0f, 0.0f, 0.0f);
+    public Vector3 WallTarget = new Vector3(0.0f, 0.0f, 0.0f);
 
     // Use this for initialization
     void Start ()
     {
+        CorePieces = GameObject.FindGameObjectsWithTag("Core");
+        OutsideWalls = GameObject.FindGameObjectsWithTag("Wall");
         EnemyAgent = GetComponent<NavMeshAgent>();
         stateMachine = new AIStateMachine<EnemyActionsManagerScript>(this);
         stateMachine.ChangeState(ChasePlayer.Instance);
-        SpawnPosition = transform.position;
+        //SpawnPosition = transform.position;
         CurrentHealth = MaximumHealth;
         IsAlive = true;
-
-        CorePieces = GameObject.FindGameObjectsWithTag("Core");
 	}
 	void Update ()
     {
@@ -56,10 +59,31 @@ public class EnemyActionsManagerScript : MonoBehaviour {
             CurrentHealth -= GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManagerScript>().BulletDamage;
         }
 
-        if ((gameObject.tag == "Special") && (OtherCollider.gameObject.tag == "Core"))
+        if ((gameObject.tag == "Special") && (OtherCollider.gameObject.tag == "Core") && (CarryingCorePiece == false))
         {
             CarryingCorePiece = true;
             OtherCollider.gameObject.SetActive(false);
+        }
+
+        if ((gameObject.tag == "Special") && (OtherCollider.gameObject.tag == "Wall"))
+        {
+            Debug.Log("Collided with the wall");
+            if (CarryingCorePiece == true)
+            {
+                gameObject.SetActive(false);
+                for (int i = 0; i < CorePieces.Length; i++)
+                {
+                    if (CorePieces[i].gameObject.activeInHierarchy == false)
+                    {
+                        CorePieces[i].gameObject.transform.position = gameObject.transform.position;
+                        CorePieces[i] = null;
+                    }
+                }
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 
@@ -91,8 +115,20 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     public void FleeWithCorePiece()
     {
+        for (int i = 0; i < OutsideWalls.Length; i++)
+        {
+            float DistanceToWall = Vector3.Distance(transform.position, OutsideWalls[i].transform.position);
+            if (DistanceToWall < ShortestDistanceToWall)
+            {
+                ShortestDistanceToWall = DistanceToWall;
+                WallTarget = OutsideWalls[i].transform.position;
+            }
+
+            EnemyAgent.destination = WallTarget;
+        }
+
         //ReturnLocation = new Vector3(SpawnPosition.x + Random.Range(-5.0f, 5.0f), SpawnPosition.y, SpawnPosition.z + Random.Range(-5.0f, 5.0f));
-        EnemyAgent.destination = SpawnPosition;
+        //EnemyAgent.destination = SpawnPosition;
     }
 
     public void EnemyDeath()
@@ -318,14 +354,16 @@ public class Flee : State<EnemyActionsManagerScript>
 
     public override void ExecuteState(EnemyActionsManagerScript Enemy)
     {
-        if (Enemy.transform.position == new Vector3(Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.x + Random.Range(-2.0f, 2.0f), Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.y, Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.z + Random.Range(-2.0f, 2.0f)))
-        {
-            Enemy.stateMachine.ChangeState(ChasePlayer.Instance);
-        }
-        else
-        {
-            Enemy.FleeWithCorePiece();
-        }
+        //if (Enemy.transform.position == new Vector3(Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.x + Random.Range(-2.0f, 2.0f), Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.y, Enemy.GetComponent<EnemyActionsManagerScript>().SpawnPosition.z + Random.Range(-2.0f, 2.0f)))
+        //{
+        //    Enemy.stateMachine.ChangeState(ChasePlayer.Instance);
+        //}
+        //else
+        //{
+        //Enemy.FleeWithCorePiece();
+        //}
+
+        Enemy.FleeWithCorePiece();
 
         if (Enemy.CurrentHealth <= 0)
         {

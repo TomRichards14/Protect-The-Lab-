@@ -28,12 +28,14 @@ public class PlayerManagerScript : MonoBehaviour {
     public Vector3 RotatePlayerTo;
 
     List<GameObject> BulletObjectPool;
+    private EnemyActionsManagerScript CorePiecesArrayReference;
 
 	// Use this for initialization
 	void Start ()
     {
         //Instantiating the object pool for the bullets
         BulletObjectPool = new List<GameObject>();
+        CorePiecesArrayReference = new EnemyActionsManagerScript();
         CurrentHealth = MaximumHealth;
         CurrentAmmo = AmmoCapacity;
         BulletDamage = 20;
@@ -46,9 +48,9 @@ public class PlayerManagerScript : MonoBehaviour {
             BulletObjectPool.Add(obj);
         }
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     { 
         CheckForMovementInput();
         CorrectingPlayerPosition();
@@ -59,11 +61,11 @@ public class PlayerManagerScript : MonoBehaviour {
         }
 
         //If the player has died
-        if (CurrentHealth <= 0)
+        if ((CurrentHealth <= 0) || (CorePiecesArrayReference.CorePieces.Length == 0))
         {
             CurrentHealth = 0;
             IsPlayerDead = true;
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
 
         if ((Input.GetButtonDown("Fire1")) && (GunIsReloading == false))
