@@ -35,7 +35,7 @@ public class PlayerManagerScript : MonoBehaviour {
     {
         //Instantiating the object pool for the bullets
         BulletObjectPool = new List<GameObject>();
-        CorePiecesArrayReference = new EnemyActionsManagerScript();
+        CorePiecesArrayReference = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemyActionsManagerScript>();
         CurrentHealth = MaximumHealth;
         CurrentAmmo = AmmoCapacity;
         BulletDamage = 20;
@@ -61,7 +61,7 @@ public class PlayerManagerScript : MonoBehaviour {
         }
 
         //If the player has died
-        if ((CurrentHealth <= 0) || (CorePiecesArrayReference.CorePieces.Length == 0))
+        if (CurrentHealth <= 0)
         {
             CurrentHealth = 0;
             IsPlayerDead = true;
