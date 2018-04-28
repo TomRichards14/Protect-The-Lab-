@@ -15,17 +15,22 @@ public class EnemyManagerScript : MonoBehaviour {
     private int CurrentNormalQuantityInWave;
     private int CurrentSpecialQuantityInWave;
 
+    //public int CountUpNormal = 0;
+    //public int CountUpSpecial = 0;
+
     List<GameObject> NormalEnemiesObjectPool;
     List<GameObject> SpecialEnemiesObjectPool;
+    public GameObject[] NormalEnemiesAlive;
+    public GameObject[] SpecialEnemiesAlive;
 
-    public bool AllNormalEnemiesDead;
-    public bool AllSpecialEnemiesDead;
+    //public bool AllNormalEnemiesDead;
+    //public bool AllSpecialEnemiesDead;
 
     // Use this for initialization
     void Start()
     {
-        AllNormalEnemiesDead = true;
-        AllSpecialEnemiesDead = true;
+        //AllNormalEnemiesDead = true;
+        //AllSpecialEnemiesDead = true;
         NormalEnemiesObjectPool = new List<GameObject>();
         SpecialEnemiesObjectPool = new List<GameObject>();
         CurrentNormalQuantityInWave = 0;
@@ -55,6 +60,9 @@ public class EnemyManagerScript : MonoBehaviour {
     void Update()
     {
         CheckIfWaveIsOver();
+        //Debug.Log(CountUpNormal);
+
+
 
         if ((AllNormalEnemiesDead == true) && (AllSpecialEnemiesDead == true))
         {
@@ -138,15 +146,31 @@ public class EnemyManagerScript : MonoBehaviour {
 
     public void CheckIfWaveIsOver()
     {
-        for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)
+        NormalEnemiesAlive = GameObject.FindGameObjectsWithTag("Normal");
+        SpecialEnemiesAlive = GameObject.FindGameObjectsWithTag("Special");
+
+        if ((NormalEnemiesAlive.Length == 0) && (SpecialEnemiesAlive.Length == 0))
+        {
+
+        }
+
+
+        /*for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)
         {
             if (!NormalEnemiesObjectPool[i].activeInHierarchy)
             {
-                AllNormalEnemiesDead = true;
-            }
-            else
-            {
-                AllNormalEnemiesDead = false;
+                CountUpNormal++;
+                //Debug.Log(CountUpNormal);
+                if (CountUpNormal == QuantityOfEnemiesInObjectPool)
+                {
+                    Debug.Log("No normal enemies");
+                    AllNormalEnemiesDead = true;
+                    CountUpNormal = 0;
+                }
+                else
+                {
+                    AllNormalEnemiesDead = false;
+                }
             }
         }
 
@@ -154,12 +178,19 @@ public class EnemyManagerScript : MonoBehaviour {
         {
             if (!SpecialEnemiesObjectPool[i].activeInHierarchy)
             {
-                AllSpecialEnemiesDead = true;
-            }
-            else
-            {
-                AllSpecialEnemiesDead = false;
+                CountUpSpecial++;
+                if (CountUpSpecial == QuantityOfEnemiesInObjectPool)
+                {
+                    Debug.Log("No special enemies");
+                    AllSpecialEnemiesDead = true;
+                    CountUpSpecial = 0;
+                }
+                else
+                {
+                    AllNormalEnemiesDead = false;
+                }
             }
         }
+    }*/
     }
 }
