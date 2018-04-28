@@ -56,7 +56,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
             CurrentHealth -= GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManagerScript>().BulletDamage;
         }
 
-        if (OtherCollider.gameObject.tag == "Core")
+        if ((gameObject.tag == "Special") && (OtherCollider.gameObject.tag == "Core"))
         {
             CarryingCorePiece = true;
             OtherCollider.gameObject.SetActive(false);

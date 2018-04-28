@@ -669,7 +669,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 934378237}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -721,7 +721,11 @@ MonoBehaviour:
     type: 2}
   CoreEnemyPrefab: {fileID: 1512214442704534, guid: 39ffd8511fad9ca46aa0f9d087c4a3c0,
     type: 2}
-  IsCurrentWaveOver: 0
+  CurrentNormalQuantityInWave: 0
+  CurrentSpecialQuantityInWave: 0
+  WaveNumber: 0
+  NormalEnemiesAlive: []
+  SpecialEnemiesAlive: []
 --- !u!114 &1083621203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -871,6 +875,7 @@ MonoBehaviour:
   CurrentHealth: 0
   CurrentAmmo: 0
   BulletDamage: 0
+  IsPlayerDead: 0
   PlayerDirection: {x: 0, y: 0, z: 0}
   MousePosition: {x: 0, y: 0, z: 0}
   RotatePlayerTo: {x: 0, y: 0, z: 0}
