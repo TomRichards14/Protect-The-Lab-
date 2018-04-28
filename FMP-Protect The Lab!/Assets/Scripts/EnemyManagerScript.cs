@@ -15,26 +15,19 @@ public class EnemyManagerScript : MonoBehaviour {
     private int CurrentNormalQuantityInWave;
     private int CurrentSpecialQuantityInWave;
 
-    //public int CountUpNormal = 0;
-    //public int CountUpSpecial = 0;
-
     List<GameObject> NormalEnemiesObjectPool;
     List<GameObject> SpecialEnemiesObjectPool;
+
     public GameObject[] NormalEnemiesAlive;
     public GameObject[] SpecialEnemiesAlive;
-
-    //public bool AllNormalEnemiesDead;
-    //public bool AllSpecialEnemiesDead;
 
     // Use this for initialization
     void Start()
     {
-        //AllNormalEnemiesDead = true;
-        //AllSpecialEnemiesDead = true;
         NormalEnemiesObjectPool = new List<GameObject>();
         SpecialEnemiesObjectPool = new List<GameObject>();
         CurrentNormalQuantityInWave = 0;
-        CurrentSpecialQuantityInWave = 2;
+        CurrentSpecialQuantityInWave = 0;
 
         //Object pool for the normal enemies that chase the player
         for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)
@@ -51,29 +44,12 @@ public class EnemyManagerScript : MonoBehaviour {
             obj.SetActive(false);
             SpecialEnemiesObjectPool.Add(obj);
         }
-
-        //ChooseNewSpawnPoint();
-        //SpawnNextWave();
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckIfWaveIsOver();
-        //Debug.Log(CountUpNormal);
-
-
-
-        if ((AllNormalEnemiesDead == true) && (AllSpecialEnemiesDead == true))
-        {
-            CurrentNormalQuantityInWave += 5;
-            CurrentSpecialQuantityInWave += 1;
-            SpawnXPosition = 0.0f;
-            ChooseNewSpawnPoint();
-            SpawnNextWave();
-            AllNormalEnemiesDead = false;
-            AllSpecialEnemiesDead = false;
-        }
     }
 
     void ChooseNewSpawnPoint()
@@ -119,7 +95,7 @@ public class EnemyManagerScript : MonoBehaviour {
         }
     }
 
-    public void SpawnNextWave()
+    public void SelectNewEnemies()
     {
         for (int i = 0; i < CurrentNormalQuantityInWave; i++)
         {
@@ -151,46 +127,16 @@ public class EnemyManagerScript : MonoBehaviour {
 
         if ((NormalEnemiesAlive.Length == 0) && (SpecialEnemiesAlive.Length == 0))
         {
-
+            SpawnNewWave();
         }
+    }
 
-
-        /*for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)
-        {
-            if (!NormalEnemiesObjectPool[i].activeInHierarchy)
-            {
-                CountUpNormal++;
-                //Debug.Log(CountUpNormal);
-                if (CountUpNormal == QuantityOfEnemiesInObjectPool)
-                {
-                    Debug.Log("No normal enemies");
-                    AllNormalEnemiesDead = true;
-                    CountUpNormal = 0;
-                }
-                else
-                {
-                    AllNormalEnemiesDead = false;
-                }
-            }
-        }
-
-        for (int i = 0; i < QuantityOfEnemiesInObjectPool; i++)
-        {
-            if (!SpecialEnemiesObjectPool[i].activeInHierarchy)
-            {
-                CountUpSpecial++;
-                if (CountUpSpecial == QuantityOfEnemiesInObjectPool)
-                {
-                    Debug.Log("No special enemies");
-                    AllSpecialEnemiesDead = true;
-                    CountUpSpecial = 0;
-                }
-                else
-                {
-                    AllNormalEnemiesDead = false;
-                }
-            }
-        }
-    }*/
+    public void SpawnNewWave()
+    {
+        CurrentNormalQuantityInWave += 5;
+        CurrentSpecialQuantityInWave += 1;
+        SpawnXPosition = 0.0f;
+        ChooseNewSpawnPoint();
+        SelectNewEnemies();
     }
 }
