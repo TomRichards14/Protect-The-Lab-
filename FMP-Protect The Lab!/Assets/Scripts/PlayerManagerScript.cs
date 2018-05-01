@@ -6,11 +6,12 @@ public class PlayerManagerScript : MonoBehaviour {
 
     public GameObject BulletPrefab;
 
-    private float PlayerMovementSpeed = 5.0f;
+    private float PlayerMovementSpeed = 0.5f;
     private float PlayerRotationSpeed = 250.0f;
     private float BulletTravelSpeed = 1500.0f;
     private float ReloadTimer = 2.0f;
     public float FireAngle;
+    public float AccelOffsetZ = 0.0f;
 
     private int QuantityOfBulletsInObjectPool = 25;
     private int MaximumHealth = 1000;
@@ -39,6 +40,7 @@ public class PlayerManagerScript : MonoBehaviour {
         CurrentHealth = MaximumHealth;
         CurrentAmmo = AmmoCapacity;
         BulletDamage = 20;
+        AccelOffsetZ = Input.acceleration.z;
 
         //Adding the GameObjects to the object pool
         for (int i = 0; i < QuantityOfBulletsInObjectPool; i++)
@@ -88,20 +90,10 @@ public class PlayerManagerScript : MonoBehaviour {
     public void CheckForMovementInput()
     {
         //Movement for Android
-        //If the phone has a gyroscope
-        /*if (Input.gyro.enabled == true)
-        {
-            transform.position += Input.acceleration * PlayerMovementSpeed * Time.deltaTime;
-        }
-        //If the phone doesn't have a gyroscope
-        else
-        {
-
-        }*/
-
+        transform.Translate(Input.acceleration.x * PlayerMovementSpeed, 0.0f, (-Input.acceleration.z - AccelOffsetZ) * PlayerMovementSpeed);
 
         //Movement for testing on Windows
-        ///*
+        /*
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(0, 0, PlayerMovementSpeed * Time.deltaTime);
@@ -121,7 +113,7 @@ public class PlayerManagerScript : MonoBehaviour {
         {
             transform.Rotate(Vector3.up * PlayerRotationSpeed * Time.deltaTime);
         }
-        //*/
+        */
     }
 
     public void PlayerFiring()
@@ -134,10 +126,10 @@ public class PlayerManagerScript : MonoBehaviour {
 
         //Debug.Log(hit.point);
 
-        Vector3 PointToLokkAt = hit.point;
-        PointToLokkAt.y = this.transform.position.y;
+        Vector3 PointToLookAt = hit.point;
+        PointToLookAt.y = this.transform.position.y;
 
-        transform.LookAt(PointToLokkAt);
+        transform.LookAt(PointToLookAt);
 
         CurrentAmmo--;
 
@@ -155,12 +147,16 @@ public class PlayerManagerScript : MonoBehaviour {
                 rigidComponent.AddForce(transform.forward * BulletTravelSpeed);
 
                 HasBulletFired = true;
+
+                
             }
         }
     }
 
     public void CorrectingPlayerPosition()
     {
+        transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+
         if ((transform.position.y < 1) || (transform.position.y > 1))
         {
             transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
