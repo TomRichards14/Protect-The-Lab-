@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerManagerScript : MonoBehaviour {
@@ -11,6 +12,8 @@ public class PlayerManagerScript : MonoBehaviour {
     public Transform GamePausedCanvas;
     public Transform BloodSplatterUI;
     public Transform LowHealthSplatterUI;
+    public Text DeadFinalWaveNumber;
+    public Text AmmoRemainingText;
 
     private float PlayerMovementSpeed = 5.0f;
     private float PlayerRotationSpeed = 250.0f;
@@ -85,6 +88,7 @@ public class PlayerManagerScript : MonoBehaviour {
                 GamePausedCanvas.gameObject.SetActive(false);
             }
 
+            DeadFinalWaveNumber.text = "You only made it to wave " + GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemyManagerScript>().WaveNumber + "...";
             GameOverCanvas.gameObject.SetActive(true);
         }
 
@@ -202,6 +206,11 @@ public class PlayerManagerScript : MonoBehaviour {
                 BloodSplatterUI.gameObject.SetActive(true);
             }
         }
+
+        if (OtherCollider.gameObject.tag == "Wall")
+        {
+            transform.position = new Vector3(-3.0f, 1.0f, 0.0f);
+        }
     }
 
     public void UIChecks()
@@ -222,5 +231,7 @@ public class PlayerManagerScript : MonoBehaviour {
             BloodSplatterUI.gameObject.SetActive(false);
             LowHealthSplatterUI.gameObject.SetActive(true);
         }
+
+        AmmoRemainingText.text = CurrentAmmo.ToString();
     }
 }
