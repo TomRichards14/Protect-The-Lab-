@@ -20,6 +20,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
     public bool IsAlive;
     public bool CarryingCorePiece;
+    public bool AllCorePiecesGone;
 
     //public Vector3 SpawnPosition;
     public Vector3 ReturnLocation;
@@ -46,6 +47,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
         //SpawnPosition = transform.position;
         CurrentHealth = MaximumHealth;
         IsAlive = true;
+        AllCorePiecesGone = false;
 	}
 	void Update ()
     {
@@ -71,6 +73,7 @@ public class EnemyActionsManagerScript : MonoBehaviour {
             if (CarryingCorePiece == true)
             {
                 gameObject.SetActive(false);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManagerScript>().CurrentHealth -= 200;
                 for (int i = 0; i < CorePieces.Length; i++)
                 {
                     if (CorePieces[i].gameObject.activeInHierarchy == false)

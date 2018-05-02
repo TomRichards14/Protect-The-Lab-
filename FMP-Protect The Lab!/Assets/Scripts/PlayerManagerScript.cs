@@ -9,11 +9,14 @@ public class PlayerManagerScript : MonoBehaviour {
     public Transform GameOverCanvas;
     public Transform GamePlayingCanvas;
     public Transform GamePausedCanvas;
+    public Transform BloodSplatterUI;
+    public Transform LowHealthSplatterUI;
 
-    private float PlayerMovementSpeed = 0.5f;
+    private float PlayerMovementSpeed = 5.0f;
     private float PlayerRotationSpeed = 250.0f;
     private float BulletTravelSpeed = 1500.0f;
     private float ReloadTimer = 2.0f;
+    private float UITimer = 1.0f;
     public float FireAngle;
     public float AccelOffsetZ = 0.0f;
 
@@ -33,14 +36,12 @@ public class PlayerManagerScript : MonoBehaviour {
     public Vector3 RotatePlayerTo;
 
     List<GameObject> BulletObjectPool;
-    private EnemyActionsManagerScript CorePiecesArrayReference;
 
 	// Use this for initialization
 	void Start ()
     {
         //Instantiating the object pool for the bullets
         BulletObjectPool = new List<GameObject>();
-        CorePiecesArrayReference = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemyActionsManagerScript>();
         CurrentHealth = MaximumHealth;
         CurrentAmmo = AmmoCapacity;
         BulletDamage = 20;
@@ -57,9 +58,10 @@ public class PlayerManagerScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update ()
-    { 
+    {
         CheckForMovementInput();
         CorrectingPlayerPosition();
+        UIChecks();
 
         if (CurrentAmmo <= 0)
         {
@@ -90,12 +92,14 @@ public class PlayerManagerScript : MonoBehaviour {
         {
             HasBulletFired = false;
             PlayerFiring();
-        }        
+        }
+
+        
     }
 
     IEnumerator GunReload()
     {
-        Debug.Log("Reloading...");
+        //Debug.Log("Reloading...");
         GunIsReloading = true;
 
         yield return new WaitForSeconds(ReloadTimer);
@@ -106,10 +110,10 @@ public class PlayerManagerScript : MonoBehaviour {
     public void CheckForMovementInput()
     {
         //Movement for Android
-        transform.Translate(Input.acceleration.x * PlayerMovementSpeed, 0.0f, (-Input.acceleration.z - AccelOffsetZ) * PlayerMovementSpeed);
+        //transform.Translate(Input.acceleration.x * PlayerMovementSpeed, 0.0f, (-Input.acceleration.z - AccelOffsetZ) * PlayerMovementSpeed);
 
         //Movement for testing on Windows
-        /*
+        
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(0, 0, PlayerMovementSpeed * Time.deltaTime);
@@ -129,7 +133,7 @@ public class PlayerManagerScript : MonoBehaviour {
         {
             transform.Rotate(Vector3.up * PlayerRotationSpeed * Time.deltaTime);
         }
-        */
+        
     }
 
     public void PlayerFiring()
@@ -171,7 +175,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
     public void CorrectingPlayerPosition()
     {
-        transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+        //transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 
         if ((transform.position.y < 1) || (transform.position.y > 1))
         {
@@ -186,6 +190,37 @@ public class PlayerManagerScript : MonoBehaviour {
         if ((transform.rotation.z < 0) || (transform.rotation.z > 0))
         {
             transform.rotation = new Quaternion(0.0f, transform.rotation.y, 0.0f, 0.0f);
+        }
+    }
+
+    public void OnCollisionEnter(Collision OtherCollider)
+    {
+        if (OtherCollider.gameObject.tag == "Normal")
+        {
+            if ((BloodSplatterUI.gameObject.activeInHierarchy == false) && (CurrentHealth > 300))
+            {
+                BloodSplatterUI.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public void UIChecks()
+    {
+        if (BloodSplatterUI.gameObject.activeInHierarchy == true)
+        {
+            UITimer -= Time.deltaTime;
+        }
+
+        if (UITimer <= 0.0f)
+        {
+            UITimer = 1.0f;
+            BloodSplatterUI.gameObject.SetActive(false);
+        }
+
+        if (CurrentHealth <= 300)
+        {
+            BloodSplatterUI.gameObject.SetActive(false);
+            LowHealthSplatterUI.gameObject.SetActive(true);
         }
     }
 }

@@ -95,9 +95,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &114957793760631084
 MonoBehaviour:
@@ -113,11 +113,12 @@ MonoBehaviour:
   CurrentHealth: 0
   IsAlive: 0
   CarryingCorePiece: 0
-  SpawnPosition: {x: 0, y: 0, z: 0}
+  AllCorePiecesGone: 0
   ReturnLocation: {x: 0, y: 0, z: 0}
   AIState: 
   CorePieces: []
   CoreTarget: {x: 0, y: 0, z: 0}
+  WallTarget: {x: 0, y: 0, z: 0}
 --- !u!136 &136062764689705928
 CapsuleCollider:
   m_ObjectHideFlags: 1

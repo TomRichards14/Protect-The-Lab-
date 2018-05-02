@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class EnemyManagerScript : MonoBehaviour {
 
     public GameObject NormalEnemyPrefab;
     public GameObject CoreEnemyPrefab;
+
+    public Text WaveNumberUI;
 
     private float SpawnXPosition;
     private float SpawnZPosition;
@@ -139,5 +142,6 @@ public class EnemyManagerScript : MonoBehaviour {
         ChooseNewSpawnPoint();
         SelectNewEnemies();
         WaveNumber += 1;
+        WaveNumberUI.text = WaveNumber.ToString();
     }
 }
