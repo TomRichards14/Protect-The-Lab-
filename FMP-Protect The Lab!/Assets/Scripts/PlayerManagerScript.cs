@@ -6,6 +6,10 @@ public class PlayerManagerScript : MonoBehaviour {
 
     public GameObject BulletPrefab;
 
+    public Transform GameOverCanvas;
+    public Transform GamePlayingCanvas;
+    public Transform GamePausedCanvas;
+
     private float PlayerMovementSpeed = 0.5f;
     private float PlayerRotationSpeed = 250.0f;
     private float BulletTravelSpeed = 1500.0f;
@@ -67,7 +71,19 @@ public class PlayerManagerScript : MonoBehaviour {
         {
             CurrentHealth = 0;
             IsPlayerDead = true;
-            //Time.timeScale = 0;
+            Time.timeScale = 0;
+
+            if (GamePlayingCanvas.gameObject.activeInHierarchy == true)
+            {
+                GamePlayingCanvas.gameObject.SetActive(false);
+            }
+
+            if (GamePausedCanvas.gameObject.activeInHierarchy == true)
+            {
+                GamePausedCanvas.gameObject.SetActive(false);
+            }
+
+            GameOverCanvas.gameObject.SetActive(true);
         }
 
         if ((Input.GetButtonDown("Fire1")) && (GunIsReloading == false))

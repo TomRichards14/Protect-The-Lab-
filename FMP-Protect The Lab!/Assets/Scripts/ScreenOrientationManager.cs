@@ -7,6 +7,7 @@ public class ScreenOrientationManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        Time.timeScale = 1;
         Screen.orientation = ScreenOrientation.Landscape;
     }
 	
