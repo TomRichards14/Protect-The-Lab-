@@ -108,7 +108,6 @@ public class EnemyActionsManagerScript : MonoBehaviour {
 
             EnemyAgent.destination = CoreTarget;
         }
-        //EnemyAgent.destination = GameObject.FindGameObjectWithTag("Core").transform.position;
     }
 
     public void AttackPlayer()
