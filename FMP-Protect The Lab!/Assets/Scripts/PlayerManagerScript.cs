@@ -114,11 +114,11 @@ public class PlayerManagerScript : MonoBehaviour {
     public void CheckForMovementInput()
     {
         //Movement for Android
-        //transform.Translate(Input.acceleration.x * PlayerMovementSpeed, 0.0f, (-Input.acceleration.z - AccelOffsetZ) * PlayerMovementSpeed);
+        transform.Translate(Input.acceleration.x * PlayerMovementSpeed, 0.0f, (-Input.acceleration.z - AccelOffsetZ) * PlayerMovementSpeed);
 
         //Movement for testing on Windows
         
-        if (Input.GetKey(KeyCode.W))
+        /*if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(0, 0, PlayerMovementSpeed * Time.deltaTime);
         }
@@ -136,7 +136,7 @@ public class PlayerManagerScript : MonoBehaviour {
         if (Input.GetKey(KeyCode.D))
         {
             transform.Rotate(Vector3.up * PlayerRotationSpeed * Time.deltaTime);
-        }
+        }*/
         
     }
 
@@ -179,7 +179,7 @@ public class PlayerManagerScript : MonoBehaviour {
 
     public void CorrectingPlayerPosition()
     {
-        //transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+        transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 
         if ((transform.position.y < 1) || (transform.position.y > 1))
         {

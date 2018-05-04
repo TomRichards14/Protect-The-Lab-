@@ -54,6 +54,9 @@ public class EnemyManagerScript : MonoBehaviour {
     void Update()
     {
         CheckIfWaveIsOver();
+
+        Debug.Log("Current normal amount of enemies should be: " + CurrentNormalQuantityInWave);
+        Debug.Log("Current normal amount of enemies are: " + NormalEnemiesAlive.Length);
     }
 
     void ChooseNewSpawnPoint()
